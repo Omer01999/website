@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giriş Yap - ZEUSFR Minecraft Sunucusu</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #1a1a1a;
+            color: #ffffff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        
+        header {
+            background-color: #111;
+            padding: 15px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 500px;
+            margin: 30px auto;
+            padding: 20px;
+            background-color: #2a2a2a;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            color: #00bcd4;
+            text-align: center;
+            margin-bottom: 5px;
+        }
+        
+        h2 {
+            color: #ffffff;
+            text-align: center;
+            margin-top: 0;
+            font-size: 1.5rem;
+        }
+        
+        .login-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        label {
+            margin-bottom: 5px;
+            color: #cccccc;
+        }
+        
+        input {
+            padding: 12px;
+            border: 1px solid #444;
+            border-radius: 4px;
+            background-color: #333;
+            color: white;
+            font-size: 16px;
+        }
+        
+        input:focus {
+            outline: none;
+            border-color: #00bcd4;
+        }
+        
+        button {
+            background-color: #00bcd4;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        
+        button:hover {
+            background-color: #0097a7;
+        }
+        
+        .error-message {
+            color: #ff5252;
+            text-align: center;
+            margin-top: 10px;
+            display: none;
+        }
+        
+        .register-link {
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        .register-link a {
+            color: #00bcd4;
+            text-decoration: none;
+        }
+        
+        .register-link a:hover {
+            text-decoration: underline;
+        }
+        
+        footer {
+            background-color: #111;
+            text-align: center;
+            padding: 15px;
+            margin-top: auto;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>ZEUSFR</h1>
+        </div>
+    </header>
+
+    <main class="container">
+        <h2>Sunucuya Giriş Yap</h2>
+        <form class="login-form" onsubmit="return login(event)">
+            <div class="form-group">
+                <label for="username">Kullanıcı Adı</label>
+                <input type="text" id="username" placeholder="Kullanıcı adınızı girin" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="password">Şifre</label>
+                <input type="password" id="password" placeholder="Şifrenizi girin" required>
+            </div>
+            
+            <div id="error-message" class="error-message"></div>
+            
+            <button type="submit">Giriş Yap</button>
+        </form>
+        
+        <div class="register-link">
+            Hesabınız yok mu? <a href="register.html">Kayıt Olun</a>
+        </div>
+    </main>
+
+    <footer>
+        <p>© 2025 ZEUSFR Minecraft Sunucusu | Tüm hakları saklıdır</p>
+    </footer>
+
+    <script>
+        function login(event) {
+            event.preventDefault();
+            
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value;
+            const errorElement = document.getElementById('error-message');
+            
+            // Hata mesajını temizle
+            errorElement.style.display = 'none';
+            
+            // Basit validasyon
+            if (!username || !password) {
+                showError('Lütfen tüm alanları doldurun!');
+                return false;
+            }
+            
+            // Kullanıcı kontrolü
+            const users = JSON.parse(localStorage.getItem('users')) || [];
+            const user = users.find(u => u.username === username && u.password === password);
+            
+            if (user) {
+                // Giriş başarılı
+                localStorage.setItem('currentUser', JSON.stringify({
+                    username: username,
+                    lastLogin: new Date().toLocaleString()
+                }));
+                
+                // Ana sayfaya yönlendir
+                window.location.href = 'index.html';
+                return true;
+            } else {
+                showError('Geçersiz kullanıcı adı veya şifre!');
+                return false;
+            }
+        }
+        
+        function showError(message) {
+            const errorElement = document.getElementById('error-message');
+            errorElement.textContent = message;
+            errorElement.style.display = 'block';
+        }
+    </script>
+</body>
+</html>

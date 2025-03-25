@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZEUSFR Minecraft Sunucusu</title>
+</head>
+<body style="font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: #1f1f1f; color: white; min-height: 100vh; display: flex; flex-direction: column;">
+    <!-- Header -->
+    <header style="background-color: #111; padding: 15px 0; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5); position: relative;">
+        <div style="max-width: 1200px; margin: 0 auto; padding: 0 20px; display: flex; justify-content: space-between; align-items: center;">
+            <a href="index.html" style="color: #00bcd4; font-size: 28px; font-weight: bold; text-decoration: none;">ZEUSFR</a>
+            
+            <!-- PC Menüsü -->
+            <nav style="display: flex; gap: 25px; align-items: center;">
+                <a href="index.html" style="color: white; text-decoration: none; font-size: 18px; transition: color 0.3s;">Ana Sayfa</a>
+                <a href="market.html" style="color: white; text-decoration: none; font-size: 18px; transition: color 0.3s;">Market</a>
+                <a href="rules.html" style="color: white; text-decoration: none; font-size: 18px; transition: color 0.3s;">Kurallar</a>
+                <a href="support.html" style="color: white; text-decoration: none; font-size: 18px; transition: color 0.3s;">Destek</a>
+                <a href="profile.html" id="profileLink" style="color: #00bcd4; text-decoration: none; font-size: 18px; display: none;">Profil</a>
+                <a href="login.html" id="authLinks" style="color: white; text-decoration: none; font-size: 18px; transition: color 0.3s;">Giriş Yap</a>
+                <button id="logoutBtn" onclick="logout()" style="background: none; border: none; color: white; font-size: 18px; cursor: pointer; display: none;">Çıkış Yap</button>
+            </nav>
+            
+            <!-- Hamburger Menü -->
+            <div class="hamburger" onclick="toggleMenu()" style="display: none; flex-direction: column; cursor: pointer; width: 30px; height: 25px; justify-content: space-between;">
+                <div style="background-color: white; height: 3px; width: 100%; transition: all 0.3s;"></div>
+                <div style="background-color: white; height: 3px; width: 100%; transition: all 0.3s;"></div>
+                <div style="background-color: white; height: 3px; width: 100%; transition: all 0.3s;"></div>
+            </div>
+        </div>
+        
+        <!-- Mobil Menü -->
+        <div id="mobileNav" style="display: none; position: absolute; top: 100%; left: 0; right: 0; background-color: #333; padding: 20px; z-index: 1000; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+            <a href="index.html" style="display: block; color: white; text-decoration: none; padding: 12px 0; border-bottom: 1px solid #444; font-size: 18px;">Ana Sayfa</a>
+            <a href="market.html" style="display: block; color: white; text-decoration: none; padding: 12px 0; border-bottom: 1px solid #444; font-size: 18px;">Market</a>
+            <a href="rules.html" style="display: block; color: white; text-decoration: none; padding: 12px 0; border-bottom: 1px solid #444; font-size: 18px;">Kurallar</a>
+            <a href="support.html" style="display: block; color: white; text-decoration: none; padding: 12px 0; border-bottom: 1px solid #444; font-size: 18px;">Destek</a>
+            <a href="profile.html" id="mobileProfileLink" style="display: none; color: #00bcd4; text-decoration: none; padding: 12px 0; border-bottom: 1px solid #444; font-size: 18px;">Profil</a>
+            <a href="login.html" id="mobileLoginLink" style="display: block; color: white; text-decoration: none; padding: 12px 0; border-bottom: 1px solid #444; font-size: 18px;">Giriş Yap</a>
+            <button id="mobileLogoutBtn" onclick="logout()" style="display: none; background: none; border: none; color: white; font-size: 18px; cursor: pointer; width: 100%; text-align: left; padding: 12px 0;">Çıkış Yap</button>
+        </div>
+    </header>
+
+    <!-- Ana İçerik -->
+    <main style="flex: 1; max-width: 1200px; margin: 30px auto; padding: 0 20px; width: 100%;">
+        <section style="text-align: center; padding: 80px 20px; background-color: #222;">
+            <h2 style="color: #00bcd4; font-size: 42px; margin-bottom: 20px;">ZEUSFR Minecraft Sunucusuna Hoşgeldiniz!</h2>
+            <p style="font-size: 18px;">Sunucumuza katılın ve eğlenceli anlar yaşayın.</p>
+            
+            <div style="margin-top: 30px; background-color: #2a2a2a; padding: 20px; border-radius: 8px; display: inline-block;">
+                <p style="margin: 5px 0;"><strong>Sunucu IP:</strong> play.zeusfr.com</p>
+                <p style="margin: 5px 0;"><strong>Versiyon:</strong> 1.20.1</p>
+                <p style="margin: 5px 0;"><strong>Online Oyuncu:</strong> <span id="playerCount">0</span>/100</p>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer style="background-color: #111; text-align: center; padding: 25px; margin-top: auto;">
+        <p>© 2025 ZEUSFR | Tüm Hakları Saklıdır.</p>
+    </footer>
+
+    <script src="auth.js"></script>
+    <script>
+        // Hamburger menü toggle
+        function toggleMenu() {
+            const mobileNav = document.getElementById('mobileNav');
+            mobileNav.style.display = mobileNav.style.display === 'block' ? 'none' : 'block';
+        }
+        
+        // Responsive menü kontrolü
+        function checkScreenSize() {
+            const hamburger = document.querySelector('.hamburger');
+            const desktopNav = document.querySelector('nav');
+            if (window.innerWidth <= 768) {
+                hamburger.style.display = 'flex';
+                desktopNav.style.display = 'none';
+            } else {
+                hamburger.style.display = 'none';
+                desktopNav.style.display = 'flex';
+                document.getElementById('mobileNav').style.display = 'none';
+            }
+        }
+        
+        // Oyuncu sayısı simülasyonu
+        function updatePlayerCount() {
+            const count = Math.floor(Math.random() * 50) + 20;
+            document.getElementById('playerCount').textContent = count;
+        }
+        
+        window.addEventListener('resize', checkScreenSize);
+        window.addEventListener('load', function() {
+            checkScreenSize();
+            updatePlayerCount();
+            setInterval(updatePlayerCount, 30000);
+        });
+    </script>
+</body>
+</html>
