@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AzMarket.az</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header class="menu">
+        <a href="index.html">Əsas Səhifə</a>
+        <a href="kategoriyalar.html">Kategoriyalar</a>
+        <a href="seçilmişelanlar.html">Seçilmiş Elanlar</a>
+        <a href="komək.html">Komək</a>
+
+        <!-- Giriş və Qeydiyyat düymələri -->
+        <div id="auth-links">
+            <a href="login.html" id="loginLink">Giriş</a>
+            <a href="register.html" id="registerLink">Qeydiyyat</a>
+        </div>
+
+        <!-- Profil və Çıxış Et düymələri -->
+        <div id="profile-links" style="display:none;">
+            <a href="profile.html" id="profileLink">Profil</a>
+            <a href="#" id="logoutLink">Çıxış Et</a>
+        </div>
+    </header>
+
+    <main>
+        <h2>AzMarket.az</h2>
+        <p>Ən son elanlar burada görünəcək.</p>
+
+        <!-- Yeni Elan Yerləşdir düyməsi -->
+        <button id="addAdButton" style="display:none;" onclick="window.location.href='elanyerlesdir.html'">Yeni Elan Yerləşdir</button>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 AzMarket.az</p>
+    </footer>
+
+    <script>
+        // Giriş etmiş istifadəçini yoxlama
+        let user = JSON.parse(localStorage.getItem("user"));
+
+        if (user) {
+            // Giriş etmişsə, profil və çıxış düymələrini göstər
+            document.getElementById("auth-links").style.display = "none";
+            document.getElementById("profile-links").style.display = "inline";
+            document.getElementById("addAdButton").style.display = "inline";
+        } else {
+            // Qeydiyyat və giriş düymələrini göstər
+            document.getElementById("auth-links").style.display = "inline";
+            document.getElementById("profile-links").style.display = "none";
+            document.getElementById("addAdButton").style.display = "none";
+        }
+
+        // Çıxış etmək
+        document.getElementById("logoutLink").addEventListener("click", function() {
+            localStorage.removeItem("user");
+            window.location.href = "index.html"; // Ana səhifəyə yönləndir
+        });
+    </script>
+
+</body>
+</html>
