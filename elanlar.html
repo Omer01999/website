@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bütün Elanlar</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <a href="index.html">Əsas Səhifə</a>
+    </header>
+
+    <main>
+        <h2>Bütün Elanlar</h2>
+        <div id="ads"></div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 AzMarket.az</p>
+    </footer>
+
+    <script>
+        fetch('elanlar.json')
+        .then(response => response.json())
+        .then(data => {
+            let adsDiv = document.getElementById("ads");
+            data.forEach(ad => {
+                let adElement = `<div class='product-card'>
+                    <img src='${ad.image}' alt='${ad.title}'>
+                    <h3>${ad.title}</h3>
+                    <p>${ad.description}</p>
+                    <p><strong>${ad.price} ₼</strong></p>
+                </div>`;
+                adsDiv.innerHTML += adElement;
+            });
+        })
+        .catch(error => console.log("Xəta: " + error));
+    </script>
+
+</body>
+</html>

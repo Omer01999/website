@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elan Yerləşdir</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Yuxarıda yerləşən menyu -->
+    <header class="menu">
+        <a href="index.html">Əsas Səhifə</a>
+        <a href="kategoriyalar.html">Kategoriyalar</a>
+        <a href="seçilmişelanlar.html">Seçilmiş Elanlar</a>
+        <a href="komək.html">Komək</a>
+        <a href="login.html">Giriş</a>
+        <a href="register.html">Qeydiyyat</a>
+    </header>
+
+    <!-- Ana hissə stili -->
+    <main>
+        <h2>Yeni Elan Yerləşdir</h2>
+        <form id="adForm" enctype="multipart/form-data">
+            <!-- Elan başlığı -->
+            <input type="text" id="title" placeholder="Elan başlığı" required>
+
+            <!-- Elanın təsviri -->
+            <textarea id="description" placeholder="Elanın təsviri" required></textarea>
+
+            <!-- Qiymət -->
+            <input type="number" id="price" placeholder="Qiymət (₼)" required>
+
+            <!-- Kategoriya seçimi -->
+            <select id="category" required>
+                <option value="" disabled selected>Kateqoriya seçin</option>
+                <option value="Telefonlar">Telefonlar</option>
+                <option value="Kompüterlər">Kompüterlər</option>
+                <option value="Maşınlar">Maşınlar</option>
+                <option value="Ev əşyaları">Ev əşyaları</option>
+            </select>
+
+            <!-- Şəkil əlavə etmək -->
+            <input type="file" id="image" required>
+
+            <!-- Yerləşdir düyməsi -->
+            <button type="submit">Yerləşdir</button>
+        </form>
+    </main>
+
+    <!-- Aşağıda yerləşən footer -->
+    <footer>
+        <p>&copy; 2025 AzMarket.az</p>
+    </footer>
+
+    <script>
+        // Elan formunu göndərmək üçün hadisə dinləyicisi
+        document.getElementById("adForm").addEventListener("submit", function(event) {
+            event.preventDefault();  // Formun avtomatik olaraq yenilənməsini və səhifənin təzələnməsini əngəlləyirik.
+
+            // Qeydiyyatdan keçib-keçmədiyini yoxlayırıq
+            let user = JSON.parse(localStorage.getItem("user"));
+            
+            // Əgər istifadəçi qeydiyyatdan keçməyibsə, onu qeydiyyat səhifəsinə yönləndiririk
+            if (!user) {
+                alert("Zəhmət olmasa, ilk öncə qeydiyyatdan keçin.");
+                window.location.href = "register.html"; // Qeydiyyat səhifəsinə yönləndirilir
+                return;
+            }
+
+            // Formdan məlumatları alırıq
+            let title = document.getElementById("title").value;
+            let description = document.getElementById("description").value;
+            let price = document.getElementById("price").value;
+            let category = document.getElementById("category").value;
+            let imageFile = document.getElementById("image").files[0];
+
+            // Şəkil oxunur
+            let reader = new FileReader();
+            reader.readAsDataURL(imageFile);
+            reader.onload = function() {
+                let imageUrl = reader.result;
+
+                // Yeni elan obyekti yaradılır
+                let ad = { title, description, price, category, image: imageUrl };
+
+                // Elanı localStorage-ə əlavə edirik
+                let ads = JSON.parse(localStorage.getItem("ads")) || [];
+                ads.push(ad);
+                localStorage.setItem("ads", JSON.stringify(ads));
+
+                // Məlumatın uğurla yüklənməsi
+                alert("Elan uğurla əlavə edildi!");
+                window.location.href = "index.html"; // Ana səhifəyə yönləndir
+            };
+
+            reader.onerror = function() {
+                alert("Şəkil yükləmə zamanı xəta baş verdi.");
+            };
+        });
+    </script>
+
+</body>
+</html>

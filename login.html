@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giriş - AzMarket.az</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Menyu gizlədilib -->
+    <header class="menu" style="display:none;">
+        <a href="index.html">Əsas Səhifə</a>
+        <a href="kategoriyalar.html">Kategoriyalar</a>
+        <a href="seçilmişelanlar.html">Seçilmiş Elanlar</a>
+        <a href="komək.html">Komək</a>
+    </header>
+
+    <main>
+        <h2>Giriş</h2>
+        <form id="loginForm">
+            <input type="email" id="loginEmail" placeholder="E-mail" required>
+            <input type="password" id="loginPassword" placeholder="Şifrə" required>
+            <button type="submit">Giriş</button>
+        </form>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 AzMarket.az</p>
+    </footer>
+
+    <script>
+        document.getElementById("loginForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            let email = document.getElementById("loginEmail").value;
+            let password = document.getElementById("loginPassword").value;
+
+            let user = JSON.parse(localStorage.getItem("user"));
+
+            if (user && user.email === email && user.password === password) {
+                alert("Giriş uğurlu oldu!");
+                window.location.href = "index.html";  // Ana səhifəyə yönləndir
+            } else {
+                alert("E-mail və ya şifrə səhvdir!");
+            }
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Qeydiyyat - AzMarket.az</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Menyu gizlədilib -->
+    <header class="menu" style="display:none;">
+        <a href="index.html">Əsas Səhifə</a>
+        <a href="kategoriyalar.html">Kategoriyalar</a>
+        <a href="seçilmişelanlar.html">Seçilmiş Elanlar</a>
+        <a href="komək.html">Komək</a>
+    </header>
+
+    <main>
+        <h2>Qeydiyyat</h2>
+        <form id="registerForm">
+            <input type="text" id="registerName" placeholder="Ad və Soyad" required>
+            <input type="email" id="registerEmail" placeholder="E-mail" required>
+            <input type="password" id="registerPassword" placeholder="Şifrə" required>
+            <button type="submit">Qeydiyyat</button>
+        </form>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 AzMarket.az</p>
+    </footer>
+
+    <script>
+        document.getElementById("registerForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            let name = document.getElementById("registerName").value;
+            let email = document.getElementById("registerEmail").value;
+            let password = document.getElementById("registerPassword").value;
+
+            // Yeni istifadəçi obyektini localStorage-ə əlavə et
+            let user = { name, email, password };
+            localStorage.setItem("user", JSON.stringify(user));
+
+            alert("Qeydiyyat uğurla tamamlandı!");
+            window.location.href = "index.html";  // Ana səhifəyə yönləndir
+        });
+    </script>
+
+</body>
+</html>
